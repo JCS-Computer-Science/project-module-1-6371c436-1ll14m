@@ -14,3 +14,29 @@ canvas {
   pointer-events: none;
   z-index: 0;
 }
+
+.button {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+}
+
+#menu_button {
+  background-color: red;
+  clip-path: polygon(30% 50%, 70% 50%, 70% 60%, 30% 60%);
+}
+
+#game_buttons {
+  background-color: green;
+  width: 1080/6;
+  height: 1920/3;
+}
+
+.unclickable {
+  pointer-events: none;
+}
+
+.hide {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
