@@ -8,8 +8,9 @@ new p5 ((p) => {
       currentScene = scene;
     }
   }
-  const game = makeGame(p, setScene, () => currentScene);
-  const menu = makeMenu(p, setScene, () => currentScene);
+  let click = document.elementsFromPoint(p.mouseX, p.mouseY);
+  const game = makeGame(p, setScene, () => currentScene, () => click);
+  const menu = makeMenu(p, setScene, () => currentScene, () => click);
   let image;
   p.preload = () => {
     image = p.loadImage("/MainMenu_Test.png")
@@ -18,7 +19,7 @@ new p5 ((p) => {
   p.setup = () => {
     p.createCanvas(1920, 1080, document.getElementById("game"));
     menu.button();
-    game.makeButtons();
+    game.setup();
   }
   p.draw = () => {
     switch (currentScene) {

@@ -24,13 +24,16 @@ canvas {
 
 #menu_button {
   background-color: red;
-  clip-path: polygon(30% 50%, 70% 50%, 70% 60%, 30% 60%);
+  /* clip-path: polygon(30% 50%, 70% 50%, 70% 60%, 30% 60%); */
+  width: 40vw;
+  height: 20vh;
+  pointer-events: all;
 }
 
 #game_buttons {
   background-color: green;
-  width: 1080/6;
-  height: 1920/3;
+  width: 1080/6px;
+  height: 1920/3px;
 }
 
 .unclickable {

@@ -1,12 +1,15 @@
-export function makeGame(p, setScene, currentScene) {
+export function makeGame(p, setScene, currentScene, click) {
     return {
+        setup() {
+            this.makeButtons();
+        },
         draw() {
             console.log("Game");
             p.clear();
             p.background("lightblue");
-            this.makeButtons();
         },
         makeButtons() {
+            
             console.log("-----------------------------------------");
             for (let i=0; i<6; i++) {
                 let div = document.createElement("div");
