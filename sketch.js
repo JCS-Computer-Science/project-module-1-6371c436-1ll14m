@@ -6,6 +6,17 @@ new p5 ((p) => {
   let activeScene = null;  // My brain isn't braining
   // I don't understand why activeScene fixes the problem
   // That being said I also don't fully understand switch case stuff
+  // --Teachers Note--Great Question:  activeScene keeps track of which scene is currently loaded.
+  // draw() runs every frame, so without this check, setup() would
+  // run over and over and reset the scene.
+  // By comparing activeScene, setup() only runs once when the scene changes.
+  // -Analogy below :)
+ // switch = deciding which TV channel to watch
+  //setup() = plugging in the TV
+  //draw() = watching the show
+  //activeScene = checking if the TV is already plugged in so you don’t unplug and replug it 24 times a second
+  
+  
   let currentMode = "1";
 
   function setScene(scene) {
