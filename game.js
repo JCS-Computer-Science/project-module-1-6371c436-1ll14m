@@ -14,6 +14,10 @@ export function makeGame(p, setScene) {
                     // when y=3 & b=2, top=(1080-(1080/3)*(y+1-b))+m // top=360+m // I'm gonna leave these test things so you can see my thought process
                     // when y=3 & b=3, top=(1080-(1080/3)*(y+1-b))+m // top=720+m // These were test things that I would use to make the equation
                     // div.style.left = `${(1920-(1920/x)*(x+1-a))+m-(m-(m/a))}px`;
+                    
+                    // Pffftttttt - I appreciate the enthusiasmXD   
+                    //Leaving the thought process actually helps a lot- thanks
+                     //You *are* clever, spacey theoretician.... now the real question is: before you drift to far into theoretical orbit when will your assignment be submitted hahah.
                     div.style.left = `${(((1920-((x+1)*m))/x)*(a-1))+(a*m)}px`;
                     // div.style.width = `${(1920/x)-((m/2)*(x+1))}px`;
                     div.style.width = `${(1920-((x+1)*m))/x}px`;
