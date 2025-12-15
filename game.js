@@ -1,5 +1,13 @@
-export function makeGame(p, setScene) {
+export function makeGame(p, setScene, currentMode) {
     return {
+        easy:["red", "blue", "green"],
+        medium:["red", "blue", "green", "purple"],
+        hard:["red", "blue", "green", "purple", "yellow"],
+        mode: null,
+        bar: null,
+        easyRules: [""],
+        mediumRules: [],
+        hardRules: [],
         setup(x, y, m, t) {
             for (let a=1; a<=x; a++) {
                 for (let b=1; b<=y; b++) {
@@ -8,6 +16,29 @@ export function makeGame(p, setScene) {
                     div.className = "game_buttons";
                     div.classList.add("button");
                     div.style.position = "absolute";
+                    console.log(this.mode);
+                    if (currentMode() == "1") {
+                        let fontsize = Math.floor(p.random(30, 70));
+                        div.style.fontSize = `${fontsize}px`;
+                        let color = Math.floor(p.random(0, this.easy.length));
+                        div.style.backgroundColor = this.easy[color];
+                        let num = Math.floor(p.random(0, 5));
+                        div.innerHTML = num;
+                    } else if (currentMode() == "2") {
+                        let fontsize = Math.floor(p.random(20, 50));
+                        div.style.fontSize = `${fontsize}px`;
+                        let color = Math.floor(p.random(0, this.medium.length));
+                        div.style.backgroundColor = this.medium[color];
+                        let num = Math.floor(p.random(0, 15));
+                        div.innerHTML = num;
+                    } else if (currentMode() == "3") {
+                        let fontsize = Math.floor(p.random(10, 30));
+                        div.style.fontSize = `${fontsize}px`;
+                        let color = Math.floor(p.random(0, this.hard.length));
+                        div.style.backgroundColor = this.hard[color];
+                        let num = Math.floor(p.random(0, 25));
+                        div.innerHTML = num;
+                    }
                     div.style.top = `${((((1080-t)-((y+1)*m))/y)*(b-1))+(b*m)+t}px`;
                     // when y=2 & b=1, top=(1080-(1080/2)*(y+1-b))+m // top=0+m
                     // when y=2 & b=2, top=(1080-(1080/2)*(y+1-b))+m // top=540+m // I'm so smart muhehehe
@@ -35,10 +66,28 @@ export function makeGame(p, setScene) {
                     document.body.appendChild(div);
                 }
             }
+            let bar = document.createElement("div");
+            bar.id = "game_bar";
+            bar.style.height = `${t-m}px`;
+            bar.style.width = `${1920-m*2}px`;
+            bar.style.top = `${m}px`;
+            bar.style.left = `${m}px`;
+            this.bar = bar;
+            document.body.appendChild(this.bar);
         },
         draw() {
             p.clear();
             p.background("lightblue");
+            if (currentMode() == "1") {
+                let num = Math.floor(p.random(0, this.easyRules.length));
+                this.bar.innerHTML = `${this.easyRules[num]}`
+            } else if (currentMode() == "2") {
+                let num = Math.floor(p.random(0, this.mediumRules.length));
+                this.bar.innerHTML = `${this.mediumRules[num]}`
+            } else if (currentMode() == "3") {
+                let num = Math.floor(p.random(0, this.hardRules.length));
+                this.bar.innerHTML = `${this.hardRules[num]}`
+            }
         },
     }
 }

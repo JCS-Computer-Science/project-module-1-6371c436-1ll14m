@@ -31,7 +31,7 @@ new p5 ((p) => {
   }
 
   const menu = makeMenu(p, setScene, setMode);
-  const game = makeGame(p, setScene);
+  const game = makeGame(p, setScene, () => currentMode);
 
   p.frameRate(24);
   p.setup = () => {
@@ -54,7 +54,7 @@ new p5 ((p) => {
           } else if (currentMode == "2") {
             game.setup(5, 5, 35, 150);
           } else if (currentMode == "3") {
-            game.setup(7, 7, 20, 150);
+            game.setup(7, 7, 20, 200);
           }
         }
         game.draw();

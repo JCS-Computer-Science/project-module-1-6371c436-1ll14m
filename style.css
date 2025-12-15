@@ -32,7 +32,9 @@ canvas {
 }
 
 .game_buttons {
-  background-color: green;
+  display: grid;
+  align-items: center;
+  text-align: center;
   width: 20vw;
   height: 20vh;
 }
@@ -77,4 +79,9 @@ canvas {
   height: 20vh;
   background-color: magenta;
 
+}
+
+#game_bar {
+  position: absolute;
+  background-color: red;
 }
