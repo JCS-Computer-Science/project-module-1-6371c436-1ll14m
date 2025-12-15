@@ -17,7 +17,7 @@ export function makeGame(p, setScene) {
                     
                     // Pffftttttt - I appreciate the enthusiasmXD   
                     //Leaving the thought process actually helps a lot- thanks
-                     //You *are* clever, spacey theoretician.... now the real question is: before you drift to far into theoretical orbit when will your assignment be submitted hahah.
+                     //You *are* clever, spacey theoretician.... now the real question is: before you drift too far into theoretical orbit when will your assignment be submitted hahah.
                     div.style.left = `${(((1920-((x+1)*m))/x)*(a-1))+(a*m)}px`;
                     // div.style.width = `${(1920/x)-((m/2)*(x+1))}px`;
                     div.style.width = `${(1920-((x+1)*m))/x}px`;
