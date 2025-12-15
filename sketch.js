@@ -3,34 +3,52 @@ import { makeMenu } from "./menu.js";
 
 new p5 ((p) => {
   let currentScene = "menu";
+  let activeScene = null;  // My brain isn't braining
+  // I don't understand why activeScene fixes the problem
+  // That being said I also don't fully understand switch case stuff
+  let currentMode = "1";
+
   function setScene(scene) {
     if (currentScene !== scene) {
       currentScene = scene;
     }
   }
-  let click = document.elementsFromPoint(p.mouseX, p.mouseY);
-  const game = makeGame(p, setScene, () => currentScene, () => click);
-  const menu = makeMenu(p, setScene, () => currentScene, () => click);
-  let image;
-  p.preload = () => {
-    image = p.loadImage("/MainMenu_Test.png")
+  function setMode(mode) {
+    if (currentMode !== mode) {
+      currentMode = mode;
+    }
   }
+
+  const menu = makeMenu(p, setScene, setMode);
+  const game = makeGame(p, setScene);
+
   p.frameRate(24);
   p.setup = () => {
     p.createCanvas(1920, 1080, document.getElementById("game"));
-    menu.button();
-    game.setup();
   }
   p.draw = () => {
     switch (currentScene) {
       case "menu":
+        if (activeScene !== menu) {
+          activeScene = menu;
+          menu.setup();
+        }
         menu.draw();
         break;
       case "game":
+        if (activeScene !== game) {
+          activeScene = game;
+          if (currentMode == "1") {
+            game.setup(3, 3, 50, 150);
+          } else if (currentMode == "2") {
+            game.setup(5, 5, 35, 150);
+          } else if (currentMode == "3") {
+            game.setup(7, 7, 20, 150);
+          }
+        }
         game.draw();
         break;
       default:
     }
-    // p.image(image, 0, 0, 1920, 1080);
   }
 })

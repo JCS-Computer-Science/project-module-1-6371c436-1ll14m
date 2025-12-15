@@ -1,29 +1,31 @@
-export function makeMenu(p, setScene, currentScene, click) {
+export function makeMenu(p, setScene, setMode) {
     return {
         setup() {
+            let modebtn = document.createElement("div");
+            modebtn.id = "mode_menu";
+            modebtn.className = "button";
+            modebtn.addEventListener("click", () => {
+                modebtn.remove();
+                for (let i=1; i<=3; i++) {
+                    let div = document.createElement("div");
+                    div.id = `mode${i}`;
+                    div.className = "button";
+                    div.addEventListener("click", () => {
+                        document.querySelectorAll(".button").forEach(el => el.remove());
+                        setMode(`${i}`);
+                        setScene("game");
+                    })
+                    document.body.appendChild(div);
 
+                }
+            });
+            document.body.appendChild(modebtn);
         },
         draw() {
             p.background("lightblue");
         },
-        button() {
-            let div = document.createElement("div");
-            div.id = "menu_button";
-            div.className = "button";
-            document.addEventListener("click", () => {
-                console.log(click())
-                console.log("X: "+p.mouseX+", Y: "+p.mouseY);
-                let rect = div.getBoundingClientRect();
-                console.log("Div Loc: "+document.elementsFromPoint((rect.left + rect.width), (rect.top + rect.height)));
-                if (click().some( el => el.id==="menu_button")) {
-                    if (currentScene() == "menu") {
-                        div.classList.add("unclickable");
-                        div.classList.add("hide");
-                        setScene("game");
-                    }
-                }
-            })
-            document.body.appendChild(div);
+        modes() {
+
         }
     }
 }

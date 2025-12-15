@@ -25,15 +25,16 @@ canvas {
 #menu_button {
   background-color: red;
   /* clip-path: polygon(30% 50%, 70% 50%, 70% 60%, 30% 60%); */
+  top: 32.5vh;
   width: 40vw;
-  height: 20vh;
+  height: 15vh;
   pointer-events: all;
 }
 
-#game_buttons {
+.game_buttons {
   background-color: green;
-  width: 1080/6px;
-  height: 1920/3px;
+  width: 20vw;
+  height: 20vh;
 }
 
 .unclickable {
@@ -42,4 +43,38 @@ canvas {
 
 .hide {
   background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#mode_menu {
+  top: 42.5vh;
+  width: 40vw;
+  height: 15vh;
+  background-color: blue;
+}
+
+#mode1 {
+  top: 42.5vh;
+  left: 15vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: chartreuse;
+  
+}
+
+#mode2 {
+  top: 42.5vh;
+  left: 40vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: purple;
+  
+}
+
+#mode3 {
+  top: 42.5vh;
+  left: 65vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: magenta;
+
 }
