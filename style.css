@@ -82,6 +82,24 @@ canvas {
 }
 
 #game_bar {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 75px;
   position: absolute;
   background-color: red;
+}
+
+#point {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 75px;
+  position: absolute;
+  top: 35vh;
+  left: 55vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: grey;
+  z-index: 9999;
 }

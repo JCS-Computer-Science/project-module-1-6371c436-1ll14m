@@ -3,11 +3,16 @@ export function makeGame(p, setScene, currentMode) {
         easy:["red", "blue", "green"],
         medium:["red", "blue", "green", "purple"],
         hard:["red", "blue", "green", "purple", "yellow"],
-        mode: null,
         bar: null,
-        easyRules: [""],
-        mediumRules: [],
-        hardRules: [],
+        easyRules: ["Only Red Tiles"],
+        mediumRules: ["Only Odd Tiles"],
+        hardRules: ["Only Even Green Tiles"],
+        // easyRules: ["Only Red Tiles", "Only Blue Tiles"],
+        // mediumRules: ["Only Odd Tiles", "Only Even Tiles"],
+        // hardRules: ["Only Even Green Tiles", "Only Odd Purple Tiles"],
+        buttons: [],
+        pointsBox: null,
+        points: 0,
         setup(x, y, m, t) {
             for (let a=1; a<=x; a++) {
                 for (let b=1; b<=y; b++) {
@@ -16,7 +21,6 @@ export function makeGame(p, setScene, currentMode) {
                     div.className = "game_buttons";
                     div.classList.add("button");
                     div.style.position = "absolute";
-                    console.log(this.mode);
                     if (currentMode() == "1") {
                         let fontsize = Math.floor(p.random(30, 70));
                         div.style.fontSize = `${fontsize}px`;
@@ -24,6 +28,7 @@ export function makeGame(p, setScene, currentMode) {
                         div.style.backgroundColor = this.easy[color];
                         let num = Math.floor(p.random(0, 5));
                         div.innerHTML = num;
+                        this.buttons.push({id :div.id, color: color, num: num});
                     } else if (currentMode() == "2") {
                         let fontsize = Math.floor(p.random(20, 50));
                         div.style.fontSize = `${fontsize}px`;
@@ -31,6 +36,7 @@ export function makeGame(p, setScene, currentMode) {
                         div.style.backgroundColor = this.medium[color];
                         let num = Math.floor(p.random(0, 15));
                         div.innerHTML = num;
+                        this.buttons.push({id :div.id, color: color, num: num});
                     } else if (currentMode() == "3") {
                         let fontsize = Math.floor(p.random(10, 30));
                         div.style.fontSize = `${fontsize}px`;
@@ -38,6 +44,7 @@ export function makeGame(p, setScene, currentMode) {
                         div.style.backgroundColor = this.hard[color];
                         let num = Math.floor(p.random(0, 25));
                         div.innerHTML = num;
+                        this.buttons.push({id :div.id, color: color, num: num});
                     }
                     div.style.top = `${((((1080-t)-((y+1)*m))/y)*(b-1))+(b*m)+t}px`;
                     // when y=2 & b=1, top=(1080-(1080/2)*(y+1-b))+m // top=0+m
@@ -74,13 +81,23 @@ export function makeGame(p, setScene, currentMode) {
             bar.style.left = `${m}px`;
             this.bar = bar;
             document.body.appendChild(this.bar);
+            console.log(this.buttons);
+            let pointCount = document.createElement("div");
+            pointCount.id = "point";
+            this.pointsBox = pointCount;
+            document.body.appendChild(this.pointsBox);
+            p.frameRate(2);
         },
         draw() {
             p.clear();
             p.background("lightblue");
+            this.pointsBox.innerHTML = `${this.points}`;
             if (currentMode() == "1") {
                 let num = Math.floor(p.random(0, this.easyRules.length));
                 this.bar.innerHTML = `${this.easyRules[num]}`
+                if (this.bar.innerHTML == "Only Red Tiles") {
+                    this.pointsUp(0);
+                }
             } else if (currentMode() == "2") {
                 let num = Math.floor(p.random(0, this.mediumRules.length));
                 this.bar.innerHTML = `${this.mediumRules[num]}`
@@ -89,5 +106,15 @@ export function makeGame(p, setScene, currentMode) {
                 this.bar.innerHTML = `${this.hardRules[num]}`
             }
         },
+        pointsUp(c) {
+            for (let a=0; a<this.buttons.length; a++) {
+                if (this.buttons[a].color == c) {
+                    document.getElementById(`${this.buttons[a].id}`).addEventListener("click", () => {
+                        // console.log("clicked");
+                        this.points+=1;
+                    })
+                }
+            }
+        }
     }
 }
