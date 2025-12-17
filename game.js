@@ -14,7 +14,8 @@ export function makeGame(p, setScene, currentMode) {
         pointsBox: null,
         points: 0,
         frame: 0,
-        holder: [144, 72, 24],
+        holder: [72, 36, 24],
+        currentNum: 0,
         setup(x, y, m, t) {
             for (let a=1; a<=x; a++) {
                 for (let b=1; b<=y; b++) {
@@ -88,6 +89,7 @@ export function makeGame(p, setScene, currentMode) {
             pointCount.id = "point";
             this.pointsBox = pointCount;
             document.body.appendChild(this.pointsBox);
+            p.frameRate(24);
         },
         draw() {
             p.clear();
@@ -97,10 +99,13 @@ export function makeGame(p, setScene, currentMode) {
             this.pointsBox.innerHTML = `${this.points}`;
             let num;
             if (currentMode() == "1") {
-                if (this.frame <= 4) {
+                if (this.frame <= this.holder[0]) {
                     console.log("frame is lower than holder");
-                    num = Math.floor(p.random(0, this.easyRules.length));
+                    num = this.currentNum;
+                } else {
                     this.frame=0;
+                    num = Math.floor(p.random(0, this.easyRules.length));
+                    this.currentNum = num;
                 }
                 this.bar.innerHTML = `${this.easyRules[num]}`
                 if (this.bar.innerHTML == "Only Red Tiles") {
