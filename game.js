@@ -4,7 +4,7 @@ export function makeGame(p, setScene, currentMode) {
         medium:["red", "blue", "green", "purple"],
         hard:["red", "blue", "green", "purple", "yellow"],
         bar: null,
-        easyRules: ["Only Red Tiles"],
+        easyRules: ["Only Red Tiles", "Only Blue Tiles"],
         mediumRules: ["Only Odd Tiles"],
         hardRules: ["Only Even Green Tiles"],
         // easyRules: ["Only Red Tiles", "Only Blue Tiles"],
@@ -13,6 +13,8 @@ export function makeGame(p, setScene, currentMode) {
         buttons: [],
         pointsBox: null,
         points: 0,
+        frame: 0,
+        holder: [144, 72, 24],
         setup(x, y, m, t) {
             for (let a=1; a<=x; a++) {
                 for (let b=1; b<=y; b++) {
@@ -86,23 +88,29 @@ export function makeGame(p, setScene, currentMode) {
             pointCount.id = "point";
             this.pointsBox = pointCount;
             document.body.appendChild(this.pointsBox);
-            p.frameRate(2);
         },
         draw() {
             p.clear();
+            this.frame++;
+            console.log(this.frame);
             p.background("lightblue");
             this.pointsBox.innerHTML = `${this.points}`;
+            let num;
             if (currentMode() == "1") {
-                let num = Math.floor(p.random(0, this.easyRules.length));
+                if (this.frame <= 4) {
+                    console.log("frame is lower than holder");
+                    num = Math.floor(p.random(0, this.easyRules.length));
+                    this.frame=0;
+                }
                 this.bar.innerHTML = `${this.easyRules[num]}`
                 if (this.bar.innerHTML == "Only Red Tiles") {
                     this.pointsUp(0);
                 }
             } else if (currentMode() == "2") {
-                let num = Math.floor(p.random(0, this.mediumRules.length));
+                num = Math.floor(p.random(0, this.mediumRules.length));
                 this.bar.innerHTML = `${this.mediumRules[num]}`
             } else if (currentMode() == "3") {
-                let num = Math.floor(p.random(0, this.hardRules.length));
+                num = Math.floor(p.random(0, this.hardRules.length));
                 this.bar.innerHTML = `${this.hardRules[num]}`
             }
         },
