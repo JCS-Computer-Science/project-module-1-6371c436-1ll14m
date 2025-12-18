@@ -4,9 +4,11 @@ export function makeGame(p, setScene, currentMode) {
         medium:["red", "blue", "green", "purple"],
         hard:["red", "blue", "green", "purple", "yellow"],
         bar: null,
-        easyRules: ["Only Red Tiles", "Only Blue Tiles"],
-        mediumRules: ["Only Odd Tiles"],
-        hardRules: ["Only Even Green Tiles"],
+        easyRules: ["Only Red Tiles", "Only Blue Tiles", "Only Green Tiles"],
+        mediumRules: ["Only Odd Tiles", "Only Even Tiles", "Only Red Even Tiles", "Only Blue Even Tiles", "Only Green Even Tiles", "Only Purple Even Tiles", "Only Red Odd Tiles", "Only Blue Odd Tiles", "Only Green Odd Tiles", "Only Purple Odd Tiles"],
+        hardRules: ["Only Odd Tiles", "Only Even Tiles", "Only Red Even Tiles", "Only Blue Even Tiles", "Only Green Even Tiles", "Only Purple Even Tiles", "Only Yellow Even Tiles", "Only Red Odd Tiles", "Only Blue Odd Tiles", "Only Green Odd Tiles", "Only Purple Odd Tiles", "Only Yellow Odd Tiles",
+            "Red or Blue Tiles", "Red or Green Tiles", "Red or Purple Tiles", "Red or Yellow Tiles", "Blue or Green Tiles", "Blue or Purple Tiles", "Blue or Yellow Tiles", "Green or Purple Tiles", "Green or Yellow Tiles", "Purple or Yellow Tiles"
+        ],
         // easyRules: ["Only Red Tiles", "Only Blue Tiles"],
         // mediumRules: ["Only Odd Tiles", "Only Even Tiles"],
         // hardRules: ["Only Even Green Tiles", "Only Odd Purple Tiles"],
@@ -14,7 +16,7 @@ export function makeGame(p, setScene, currentMode) {
         pointsBox: null,
         points: 0,
         frame: 0,
-        holder: [72, 36, 24],
+        holder: [36, 24, 18],
         currentNum: 0,
         setup(x, y, m, t) {
             for (let a=1; a<=x; a++) {
@@ -76,6 +78,44 @@ export function makeGame(p, setScene, currentMode) {
                     document.body.appendChild(div);
                 }
             }
+            for (let a = 0; a < this.buttons.length; a++) {
+                const btn = document.getElementById(this.buttons[a].id);
+                btn.addEventListener("click", () => {
+                    let rule = this.bar.innerHTML;
+                    if ((rule === "Only Red Tiles" && this.buttons[a].color === 0) ||
+                    (rule === "Only Blue Tiles" && this.buttons[a].color === 1) ||
+                    (rule === "Only Green Tiles" && this.buttons[a].color === 2) ||
+                    (rule === "Only Odd Tiles" && this.buttons[a].num%2==1) ||
+                    (rule === "Only Even Tiles" && this.buttons[a].num%2==0) ||
+                    (rule === "Only Red Even Tiles" && this.buttons[a].num%2==0 && this.buttons[a].color === 0) ||
+                    (rule === "Only Blue Even Tiles" && this.buttons[a].num%2==0 && this.buttons[a].color === 1) ||
+                    (rule === "Only Green Even Tiles" && this.buttons[a].num%2==0 && this.buttons[a].color === 2) ||
+                    (rule === "Only Purple Even Tiles" && this.buttons[a].num%2==0 && this.buttons[a].color === 3) ||
+                    (rule === "Only Yellow Even Tiles" && this.buttons[a].num%2==0 && this.buttons[a].color === 4) ||
+                    (rule === "Only Red Odd Tiles" && this.buttons[a].num%2==1 && this.buttons[a].color === 0) ||
+                    (rule === "Only Blue Odd Tiles" && this.buttons[a].num%2==1 && this.buttons[a].color === 1) ||
+                    (rule === "Only Green Odd Tiles" && this.buttons[a].num%2==1 && this.buttons[a].color === 2) ||
+                    (rule === "Only Purple Odd Tiles" && this.buttons[a].num%2==1 && this.buttons[a].color === 3) ||
+                    (rule === "Only Yellow Odd Tiles" && this.buttons[a].num%2==1 && this.buttons[a].color === 4) ||
+                    (rule === "Red or Blue Tiles" && (this.buttons[a].color === 0 || this.buttons[a].color === 1)) ||
+                    (rule === "Red or Green Tiles" && (this.buttons[a].color === 0 || this.buttons[a].color === 2)) ||
+                    (rule === "Red or Purple Tiles" && (this.buttons[a].color === 0 || this.buttons[a].color === 3)) ||
+                    (rule === "Red or Yellow Tiles" && (this.buttons[a].color === 0 || this.buttons[a].color === 4)) ||
+                    (rule === "Blue or Green Tiles" && (this.buttons[a].color === 1 || this.buttons[a].color === 2)) ||
+                    (rule === "Blue or Purple Tiles" && (this.buttons[a].color === 1 || this.buttons[a].color === 3)) ||
+                    (rule === "Blue or Yellow Tiles" && (this.buttons[a].color === 1 || this.buttons[a].color === 4)) ||
+                    (rule === "Green or Purple Tiles" && (this.buttons[a].color === 2 || this.buttons[a].color === 3)) ||
+                    (rule === "Green or Yellow Tiles" && (this.buttons[a].color === 2 || this.buttons[a].color === 4)) ||
+                    (rule === "Purple or Yellow Tiles" && (this.buttons[a].color === 3 || this.buttons[a].color === 4))) {
+                        this.points += 1;
+                        this.buttons[a].color = Math.floor(p.random(0, this.easy.length));
+                        btn.style.backgroundColor = this.easy[this.buttons[a].color];
+                        this.buttons[a].num = Math.floor(p.random(0, 5));
+                        btn.innerHTML = this.buttons[a].num;
+                    }
+                    // You can add more conditions for other rules
+                });
+            }
             let bar = document.createElement("div");
             bar.id = "game_bar";
             bar.style.height = `${t-m}px`;
@@ -94,13 +134,11 @@ export function makeGame(p, setScene, currentMode) {
         draw() {
             p.clear();
             this.frame++;
-            console.log(this.frame);
             p.background("lightblue");
             this.pointsBox.innerHTML = `${this.points}`;
             let num;
             if (currentMode() == "1") {
                 if (this.frame <= this.holder[0]) {
-                    console.log("frame is lower than holder");
                     num = this.currentNum;
                 } else {
                     this.frame=0;
@@ -108,26 +146,25 @@ export function makeGame(p, setScene, currentMode) {
                     this.currentNum = num;
                 }
                 this.bar.innerHTML = `${this.easyRules[num]}`
-                if (this.bar.innerHTML == "Only Red Tiles") {
-                    this.pointsUp(0);
-                }
             } else if (currentMode() == "2") {
-                num = Math.floor(p.random(0, this.mediumRules.length));
+                if (this.frame <= this.holder[0]) {
+                    num = this.currentNum;
+                } else {
+                    this.frame=0;
+                    num = Math.floor(p.random(0, this.mediumRules.length));
+                    this.currentNum = num;
+                }
                 this.bar.innerHTML = `${this.mediumRules[num]}`
             } else if (currentMode() == "3") {
-                num = Math.floor(p.random(0, this.hardRules.length));
+                if (this.frame <= this.holder[0]) {
+                    num = this.currentNum;
+                } else {
+                    this.frame=0;
+                    num = Math.floor(p.random(0, this.hardRules.length));
+                    this.currentNum = num;
+                }
                 this.bar.innerHTML = `${this.hardRules[num]}`
             }
         },
-        pointsUp(c) {
-            for (let a=0; a<this.buttons.length; a++) {
-                if (this.buttons[a].color == c) {
-                    document.getElementById(`${this.buttons[a].id}`).addEventListener("click", () => {
-                        // console.log("clicked");
-                        this.points+=1;
-                    })
-                }
-            }
-        }
     }
 }
