@@ -16,18 +16,34 @@ export function makeGame(p, setScene, currentMode) {
         pointsBox: null,
         points: 0,
         frame: 0,
-        holder: [36, 24, 18],
+        endframe: 0,
+        holder: [36, 48, 72],
         currentNum: 0,
+        timer: 1440,
+        timeBox: null,
+        scoreBox: null,
         setup(x, y, m, t) {
+            let bar = document.createElement("div");
+            bar.id = "game_bar";
+            bar.className = "borderStyle";
+            bar.style.height = `${t-m}px`;
+            bar.style.width = `${1920-m*2}px`;
+            bar.style.top = `${m}px`;
+            bar.style.left = `${m}px`;
+            this.bar = bar;
+            document.body.appendChild(this.bar);
             for (let a=1; a<=x; a++) {
                 for (let b=1; b<=y; b++) {
                     let div = document.createElement("div");
                     div.id = `${a},${b}`;
                     div.className = "game_buttons";
                     div.classList.add("button");
+                    div.classList.add("borderStyle");
                     div.style.position = "absolute";
                     if (currentMode() == "1") {
-                        let fontsize = Math.floor(p.random(30, 70));
+                        div.style.borderWidth = "15px";
+                        bar.style.borderWidth = "15px";
+                        let fontsize = Math.floor(p.random(50, 70));
                         div.style.fontSize = `${fontsize}px`;
                         let color = Math.floor(p.random(0, this.easy.length));
                         div.style.backgroundColor = this.easy[color];
@@ -35,7 +51,9 @@ export function makeGame(p, setScene, currentMode) {
                         div.innerHTML = num;
                         this.buttons.push({id :div.id, color: color, num: num});
                     } else if (currentMode() == "2") {
-                        let fontsize = Math.floor(p.random(20, 50));
+                        div.style.borderWidth = "10px";
+                        bar.style.borderWidth = "10px";
+                        let fontsize = Math.floor(p.random(40, 50));
                         div.style.fontSize = `${fontsize}px`;
                         let color = Math.floor(p.random(0, this.medium.length));
                         div.style.backgroundColor = this.medium[color];
@@ -43,7 +61,9 @@ export function makeGame(p, setScene, currentMode) {
                         div.innerHTML = num;
                         this.buttons.push({id :div.id, color: color, num: num});
                     } else if (currentMode() == "3") {
-                        let fontsize = Math.floor(p.random(10, 30));
+                        div.style.borderWidth = "7px";
+                        bar.style.borderWidth = "7px";
+                        let fontsize = Math.floor(p.random(30, 50));
                         div.style.fontSize = `${fontsize}px`;
                         let color = Math.floor(p.random(0, this.hard.length));
                         div.style.backgroundColor = this.hard[color];
@@ -116,54 +136,72 @@ export function makeGame(p, setScene, currentMode) {
                     // You can add more conditions for other rules
                 });
             }
-            let bar = document.createElement("div");
-            bar.id = "game_bar";
-            bar.style.height = `${t-m}px`;
-            bar.style.width = `${1920-m*2}px`;
-            bar.style.top = `${m}px`;
-            bar.style.left = `${m}px`;
-            this.bar = bar;
-            document.body.appendChild(this.bar);
             console.log(this.buttons);
             let pointCount = document.createElement("div");
             pointCount.id = "point";
+            pointCount.style.top = `${m+20}px`;
+            pointCount.style.height = `${t-m-25}px`;
+            pointCount.style.left = `${m+40}px`;
             this.pointsBox = pointCount;
             document.body.appendChild(this.pointsBox);
+            let timer = document.createElement("div");
+            timer.id = "timer";
+            timer.style.top = `${m+20}px`;
+            timer.style.height = `${t-m-25}px`;
+            timer.style.right = `${m+40}px`;
+            this.timeBox = timer;
+            document.body.appendChild(this.timeBox);
             p.frameRate(24);
+            let scoreboard = document.createElement("div");
+            scoreboard.id = "scoreboard";
+            this.scoreBox = scoreboard;
+            document.body.appendChild(this.scoreBox);
         },
         draw() {
             p.clear();
             this.frame++;
+            this.timer--;
             p.background("lightblue");
-            this.pointsBox.innerHTML = `${this.points}`;
             let num;
-            if (currentMode() == "1") {
-                if (this.frame <= this.holder[0]) {
-                    num = this.currentNum;
-                } else {
-                    this.frame=0;
-                    num = Math.floor(p.random(0, this.easyRules.length));
-                    this.currentNum = num;
+            if (this.timer > 0) {
+                this.pointsBox.innerHTML = `${this.points}`;
+                this.timeBox.innerHTML = `${Math.floor(this.timer/24)}`;
+                if (currentMode() == "1") {
+                    if (this.frame <= this.holder[0]) {
+                        num = this.currentNum;
+                    } else {
+                        this.frame=0;
+                        num = Math.floor(p.random(0, this.easyRules.length));
+                        this.currentNum = num;
+                    }
+                    this.bar.innerHTML = `${this.easyRules[num]}`
+                } else if (currentMode() == "2") {
+                    if (this.frame <= this.holder[1]) {
+                        num = this.currentNum;
+                    } else {
+                        this.frame=0;
+                        num = Math.floor(p.random(0, this.mediumRules.length));
+                        this.currentNum = num;
+                    }
+                    this.bar.innerHTML = `${this.mediumRules[num]}`
+                } else if (currentMode() == "3") {
+                    if (this.frame <= this.holder[2]) {
+                        num = this.currentNum;
+                    } else {
+                        this.frame=0;
+                        num = Math.floor(p.random(0, this.hardRules.length));
+                        this.currentNum = num;
+                    }
+                    this.bar.innerHTML = `${this.hardRules[num]}`
                 }
-                this.bar.innerHTML = `${this.easyRules[num]}`
-            } else if (currentMode() == "2") {
-                if (this.frame <= this.holder[0]) {
-                    num = this.currentNum;
+            } else {
+                this.endframe++;
+                if (this.endframe<this.holder[2]) {
+                    this.scoreBox.style.zIndex = "9999";
+                    this.scoreBox.innerHTML = `${this.points}`;
                 } else {
-                    this.frame=0;
-                    num = Math.floor(p.random(0, this.mediumRules.length));
-                    this.currentNum = num;
+                    location.reload();
                 }
-                this.bar.innerHTML = `${this.mediumRules[num]}`
-            } else if (currentMode() == "3") {
-                if (this.frame <= this.holder[0]) {
-                    num = this.currentNum;
-                } else {
-                    this.frame=0;
-                    num = Math.floor(p.random(0, this.hardRules.length));
-                    this.currentNum = num;
-                }
-                this.bar.innerHTML = `${this.hardRules[num]}`
             }
         },
     }
