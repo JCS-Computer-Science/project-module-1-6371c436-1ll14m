@@ -1,0 +1,149 @@
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  background-size: cover;
+  background-position: center;
+  user-select: none;
+}
+
+canvas {
+  max-width: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.button {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 75px;
+}
+
+.borderStyle {
+  border-width: 15px;
+  border-style: ridge;
+  border-color: black;
+}
+
+#menu_button {
+  background-color: red;
+  /* clip-path: polygon(30% 50%, 70% 50%, 70% 60%, 30% 60%); */
+  top: 32.5vh;
+  width: 40vw;
+  height: 15vh;
+  pointer-events: all;
+}
+
+.game_buttons {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  width: 20vw;
+  height: 20vh;
+}
+
+.unclickable {
+  pointer-events: none;
+}
+
+.hide {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#mode_menu {
+  top: 42.5vh;
+  width: 40vw;
+  height: 15vh;
+  background-color: blue;
+}
+
+#mode1 {
+  top: 42.5vh;
+  left: 15vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: rgb(250, 200, 200);
+  
+}
+
+#mode2 {
+  top: 42.5vh;
+  left: 40vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: rgb(250, 100, 100);
+  
+}
+
+#mode3 {
+  top: 42.5vh;
+  left: 65vw;
+  width: 20vw;
+  height: 20vh;
+  background-color: rgb(250, 0, 0);
+
+}
+
+#game_bar {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 75px;
+  position: absolute;
+  background-color: red;
+}
+
+#point {
+  display: grid;
+  align-items: center;
+  text-align: left;
+  font-size: 75px;
+  position: absolute;
+  width: 20vw;
+  background-color: red;
+  z-index: 9999;
+}
+
+#timer {
+  display: grid;
+  align-items: center;
+  text-align: right;
+  font-size: 75px;
+  position: absolute;
+  width: 20vw;
+  background-color: red;
+  z-index: 9999;
+}
+
+#scoreboard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1080px;
+  width: 1920px;
+  background-color: grey;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 200px;
+  z-index: -1;
+}
+
+#title {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-size: 175px;
+  position: absolute;
+  top: 12.5vh;
+  color: black;
+  z-index: 9999;
+}
